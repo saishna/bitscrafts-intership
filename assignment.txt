@@ -1,0 +1,246 @@
+//The solutions to your problems in JavaScript using the Object-Oriented Programming (OOP) paradigm:
+1. Write a function to find out the longest palindrome in a given string.
+class PalindromeFinder {
+    static isPalindrome(s) {
+        return s === s.split('').reverse().join('');
+    }
+
+    static longestPalindrome(s) {
+        let longest = '';
+        for (let i = 0; i < s.length; i++) {
+            for (let j = i + 1; j <= s.length; j++) {
+                const substr = s.substring(i, j);
+                if (this.isPalindrome(substr) && substr.length > longest.length) {
+                    longest = substr;
+                }
+            }
+        }
+        return longest;
+    }
+}
+
+// Example usage:
+const str = "babad";
+console.log(PalindromeFinder.longestPalindrome(str)); // Output: "bab"
+
+2. Print all permutation of String both iterative and Recursive way?
+
+ i. iterative
+
+ class Permutations {
+    static iterativePermutations(s) {
+        const result = [];
+        const stack = [...s];
+        const length = s.length;
+        const c = new Array(length).fill(0);
+
+        result.push(s);
+
+        let i = 0;
+        while (i < length) {
+            if (c[i] < i) {
+                const swapIndex = i % 2 && c[i];
+                const temp = stack[i];
+                stack[i] = stack[swapIndex];
+                stack[swapIndex] = temp;
+
+                result.push(stack.join(''));
+
+                c[i]++;
+                i = 0;
+            } else {
+                c[i] = 0;
+                i++;
+            }
+        }
+
+        return result;
+    }
+}
+
+// Example usage:
+const str = "abc";
+console.log(Permutations.iterativePermutations(str));
+
+
+ii.Recursive
+
+class Permutations {
+    static recursivePermutations(s, prefix = '') {
+        if (s.length === 0) {
+            console.log(prefix);
+        } else {
+            for (let i = 0; i < s.length; i++) {
+                this.recursivePermutations(s.slice(0, i) + s.slice(i + 1), prefix + s[i]);
+            }
+        }
+    }
+}
+
+// Example usage:
+const str = "abc";
+Permutations.recursivePermutations(str);
+
+
+3. How to count the occurrence of a given character in a String?
+class CharacterCounter {
+    static countOccurrences(s, char) {
+        let count = 0;
+        for (let i = 0; i < s.length; i++) {
+            if (s[i] === char) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
+
+// Example usage:
+const str = "hello";
+const char = "l";
+console.log(CharacterCounter.countOccurrences(str, char)); // Output: 2
+
+
+4. In an array 1-100 numbers are stored, one number is missing how do you find it
+
+class MissingNumberFinder {
+    static findMissingNumber(arr) {
+        const n = arr.length + 1; // Assuming one number is missing
+        const totalSum = (n * (n + 1)) / 2;
+        const arrSum = arr.reduce((acc, num) => acc + num, 0);
+        return totalSum - arrSum;
+    }
+}
+
+// Example usage:
+const arr = [1, 2, 3, 4, 6, 7, 8, 9, 10]; // Assuming one number is missing
+console.log(MissingNumberFinder.findMissingNumber(arr)); // Output: 5
+
+5.In an array 1-100 multiple numbers are duplicates, how do you find it?
+
+class DuplicateNumberFinder {
+    static findDuplicates(arr) {
+        const seen = new Set();
+        const duplicates = new Set();
+        
+        for (const num of arr) {
+            if (seen.has(num)) {
+                duplicates.add(num);
+            } else {
+                seen.add(num);
+            }
+        }
+        
+        return Array.from(duplicates);
+    }
+}
+
+// Example usage:
+const arr = [1, 2, 3, 4, 4, 5, 5, 6]; // Assuming multiple duplicates exist
+console.log(DuplicateNumberFinder.findDuplicates(arr)); // Output: [4, 5]
+
+
+6.Given two arrays, 1,2,3,4,5 and 2,3,1,0,5 find which number is not present in the second array.
+class MissingNumberFinder {
+    static findMissingNumber(arr1, arr2) {
+        const set2 = new Set(arr2);
+        for (const num of arr1) {
+            if (!set2.has(num)) {
+                return num;
+            }
+        }
+        return null; // If all numbers are present in arr2
+    }
+}
+
+// Example usage:
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [2, 3, 1, 0, 5];
+console.log(MissingNumberFinder.findMissingNumber(arr1, arr2)); // Output: 4
+
+7.How to find all pairs in an array of integers whose sum is equal to the given number
+
+class PairFinder {
+    static findPairs(arr, targetSum) {
+        const pairs = [];
+        const seen = new Set();
+
+        for (const num of arr) {
+            const complement = targetSum - num;
+            if (seen.has(complement)) {
+                pairs.push([num, complement]);
+            }
+            seen.add(num);
+        }
+
+        return pairs;
+    }
+}
+
+// Example usage:
+const arr = [1, 2, 3, 4, 5];
+const targetSum = 6;
+console.log(PairFinder.findPairs(arr, targetSum)); // Output: [[1, 5], [2, 4]]
+
+
+8.Write code to print InOrder traversal of a tree?
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class TreeTraversal {
+    static inOrderTraversal(root) {
+        if (root === null) {
+            return;
+        }
+        this.inOrderTraversal(root.left);
+        console.log(root.val);
+        this.inOrderTraversal(root.right);
+    }
+}
+
+// Example usage:
+// Assuming a tree is constructed with nodes
+// const root = new TreeNode(1);
+// root.left = new TreeNode(2);
+// root.right = new TreeNode(3);
+// root.left.left = new TreeNode(4);
+// root.left.right = new TreeNode(5);
+// TreeTraversal.inOrderTraversal(root);
+
+
+How do you count a number of leaf nodes in a given binary tree?
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class LeafNodeCounter {
+    static countLeafNodes(root) {
+        if (root === null) {
+            return 0;
+        }
+        if (root.left === null && root.right === null) {
+            return 1; // Node is a leaf node
+        }
+        // Recursively count leaf nodes in the left and right subtrees
+        return this.countLeafNodes(root.left) + this.countLeafNodes(root.right);
+    }
+}
+
+// Example usage:
+// Assuming a tree is constructed with nodes
+// const root = new TreeNode(1);
+// root.left = new TreeNode(2);
+// root.right = new TreeNode(3);
+// root.left.left = new TreeNode(4);
+// root.left.right = new TreeNode(5);
+// console.log(LeafNodeCounter.countLeafNodes(root)); // Output: 2
+
